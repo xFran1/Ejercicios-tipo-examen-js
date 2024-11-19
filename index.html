@@ -1,63 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body id="body">
-    
-
+  </head>
+  <body id="body">
     <script>
-          let encabezados=["Horas", "Previsión", "Viento", "Velocidad", "Lluvias"];         
-        let datos=[
-            {
-            hora:"19:00",
-            prevision:{ temperatura: "33º", icono:"dia" },
-            viento:"oeste",
-            velocidad:"15 km/h",
-            lluvias:"0 mm"
-            },
-            {
-            hora:"20:00",
-            prevision:{ temperatura: "30º", icono:"dia" },
-            viento:"norte",
-            velocidad:"5 km/h",
-            lluvias:"10 mm"
-            },
-            {
-            hora:"21:00",
-            prevision:{ temperatura: "28º", icono:"noche" },
-            viento:"sur",
-            velocidad:"0 km/h",
-            lluvias:"5 mm"
-            },
+      let encabezados = [
+        "Horas",
+        "Previsión",
+        "Viento",
+        "Velocidad",
+        "Lluvias",
+      ];
+      let datos = [
+        {
+          hora: "19:00",
+          prevision: { temperatura: "33º", icono: "dia" },
+          viento: "oeste",
+          velocidad: "15 km/h",
+          lluvias: "0 mm",
+        },
+        {
+          hora: "20:00",
+          prevision: { temperatura: "30º", icono: "dia" },
+          viento: "norte",
+          velocidad: "5 km/h",
+          lluvias: "10 mm",
+        },
+        {
+          hora: "21:00",
+          prevision: { temperatura: "28º", icono: "noche" },
+          viento: "sur",
+          velocidad: "0 km/h",
+          lluvias: "5 mm",
+        },
+      ];
+      let tabla = document.createElement("table");
+      let tr = document.createElement("tr");
+      Object.entries(datos[0]).forEach(([elmnt_header]) => {
+        let td = document.createElement("td");
+        td.textContent = elmnt_header;
+        td.style.textTransform = "capitalize";
+        td.style.border = "1px solid black";
+        td.style.padding = "5px";
+        tr.appendChild(td);
+      });
+      tabla.appendChild(tr);
+      let td= "";
+      let body = document.getElementById("body");
+      body.appendChild(tabla);
+      datos.forEach((element) => {
+        let tr = document.createElement("tr");
+        Object.entries(element).forEach(([key,elemnt]) => {
+            let td = document.createElement("td");
 
-        ];
-            let tabla=document.createElement("table");
-            let tr = document.createElement("tr")
-            Object.entries(datos[0]).forEach(([elmnt_header])=>{
-                let td = document.createElement("td")
-                td.textContent=elmnt_header
-                td.style.textTransform="capitalize"
-                td.style.border="1px solid black";
-                td.style.padding="5px"
-                tr.appendChild(td)
-            });
-            tabla.appendChild(tr)
+          if(key=="viento"){
+            let img = document.createElement("img")
+            if(elemnt=="norte"){
+                img.src="img/norte.png"
+            }else if(elemnt=="sur"){
+img.src="img/sur.png"
+            }else if(elemnt=="este"){
+img.src="img/este.png"
+            }else if(elemnt=="oeste"){
+img.src="img/oeste.png"
+            }
+            td.appendChild(img)
+            tr.appendChild(td);
 
-            let body = document.getElementById('body')
-            body.appendChild(tabla)
-            datos.forEach(element => {
-               Object.values(element).forEach(elemnt =>{
-                console.log(elemnt)
-                if(type){
-
+          }else{
+            if (typeof elemnt === "object") {
+            Object.entries(elemnt).forEach(([key, valores]) => {
+              if (key == "temperatura") {
+                let div = document.createElement("div");
+                div.textContent = valores;
+                div.style.display="flex"
+                div.style.alignSelf="center"
+                td.appendChild(div);
+              } else if (key == "icono") {
+                let img = document.createElement("img");
+                if (valores == "dia") {
+                  img.src = "img/sol.png";
+                } else {
+                  img.src = "img/luna.png";
                 }
-            })
+                td.style.display="flex"
 
-               
-               });
+
+                td.appendChild(img);
+              }
+            });
+            tr.appendChild(td);
+          } else {
+            let td = document.createElement("td");
+            td.textContent = elemnt;
+            tr.appendChild(td);
+          }
+          }
+          
+           
+        });
+        tabla.appendChild(tr);
+      });
     </script>
-</body>
+  </body>
 </html>
